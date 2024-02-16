@@ -30,7 +30,7 @@ def main():
                 entry["grams"] = st.number_input("Grams", value=entry["grams"])
                 entry["grind_size"] = st.text_input("Grind Size", value=entry["grind_size"])
 
-    if st.button("Save Entries"):
+    if st.button("Save"):
         save_entries(st.session_state.entries)
         st.write("Entries saved successfully.")
 
