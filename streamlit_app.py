@@ -1,6 +1,7 @@
 # app.py
 import streamlit as st
 import time
+import csv
 
 def main():
     st.title("Espresso Brew Timer")
@@ -28,6 +29,18 @@ def main():
                 entry["bean_type"] = st.text_input("Bean Type", value=entry["bean_type"])
                 entry["grams"] = st.number_input("Grams", value=entry["grams"])
                 entry["grind_size"] = st.text_input("Grind Size", value=entry["grind_size"])
+
+    if st.button("Save Entries"):
+        save_entries(st.session_state.entries)
+        st.write("Entries saved successfully.")
+
+def save_entries(entries):
+    with open("brew_entries.csv", "w", newline="") as csvfile:
+        fieldnames = ["start_time", "pour_start_time", "end_time", "bean_type", "grams", "grind_size"]
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        writer.writeheader()
+        for entry in entries:
+            writer.writerow(entry)
 
 if __name__ == "__main__":
     main()
