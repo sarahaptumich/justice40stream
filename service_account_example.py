@@ -3,9 +3,9 @@
 import streamlit as st
 from streamlit_gsheets import GSheetsConnection
 
-url = "https://docs.google.com/spreadsheets/d/1-7ZWrCazgTIhyhCJXDr5G7jaN-QY2-w5Zzb_8tSxzcA/edit?usp=sharing"
+
 
 conn = st.experimental_connection("gsheets", type=GSheetsConnection)
 
-data = conn.read(spreadsheet=url)
+data = conn.read(worksheet="brews")
 st.dataframe(data)
