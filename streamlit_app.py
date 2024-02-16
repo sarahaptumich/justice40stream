@@ -17,7 +17,7 @@ with st.form(key="my_form",clear_on_submit=True):
     grind_input = st.text_input('Grind', key='note2')
     start_pour_input = st.text_input('Start Pour', key='note3')
     end_pour_input = st.text_input('End Pour', key='note4')
-    date_input = st.text_input('DAate', key='note5')
+    date_input = st.text_input('Date', key='note5')
     
     submitted = st.form_submit_button("Submit")
     if submitted:
@@ -30,4 +30,4 @@ with st.form(key="my_form",clear_on_submit=True):
         form_callback(bean_name_input, grams_input, grind_input, start_pour_input, end_pour_input, date_input)
 
 st.info(" #### Show contents of the CSV file :point_down:")
-st.dataframe(pd.read_csv("espresso.csv",names=["Bean_Name","Grams", "Grind", "Start_Pour", "End_Pour", "Date"]),height=300)
+st.dataframe(pd.read_csv("espresso.csv"),height=300)
