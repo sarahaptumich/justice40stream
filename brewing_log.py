@@ -1,47 +1,42 @@
 import streamlit as st
 import time
-from datetime import datetime
 
 def main():
     st.title("Coffee Brewing Log")
 
-    # Bean Name
-    bean_name = st.text_input("Bean Name")
+    # Button state
+    button_state = st.button("Start/End Pour")
 
-    # Grams
-    grams = st.number_input("Grams", min_value=0)
-
-    # Grind
-    grind = st.number_input("Grind", min_value=0)
-
-    # Time variables
+    # Initialize variables
     start_time = None
     end_time = None
+    lap_num = 1
 
-    # Check if brewing is in progress
-    is_brewing = st.session_state.get("is_brewing", False)
-
-    # Toggle button label based on brewing status
-    if is_brewing:
-        pour_button_label = "End Pour"
-    else:
-        pour_button_label = "Start Pour"
-
-    # Pour Button
-    if st.button(pour_button_label):
-        if not is_brewing:
-            start_time = time.time()
-            st.session_state.is_brewing = True
-        else:
+    # Main loop
+    if button_state:
+        if st.session_state.get("is_running", False):
             end_time = time.time()
-            st.session_state.is_brewing = False
+            st.session_state.is_running = False
+        else:
+            start_time = time.time()
+            st.session_state.is_running = True
 
-    # Date
-    date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    # Calculate times
+    if start_time is not None:
+        total_time = time.time() - start_time
+    else:
+        total_time = 0
 
-    # Submit Button
-    if st.button("Submit"):
-        st.success(f"Bean Name: {bean_name}, Grams: {grams}, Grind: {grind}, Start Pour Time: {start_time}, End Pour Time: {end_time}, Date: {date}")
+    if end_time is not None:
+        lap_time = end_time - start_time
+    else:
+        lap_time = 0
+
+    # Display lap info
+    if start_time is not None:
+        st.write(f"Lap Number {lap_num}")
+        st.write(f"Total Time taken: {round(total_time, 2)} seconds")
+        st.write(f"Lap Time: {round(lap_time, 2)} seconds")
 
 if __name__ == "__main__":
     main()
