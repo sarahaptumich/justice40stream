@@ -14,20 +14,27 @@ def main():
     # Grind
     grind = st.number_input("Grind", min_value=0)
 
-    # Pour Button
-    pour_button_label = "Start Pour"
-    pour_button_state = st.button(pour_button_label)
-
+    # Time variables
     start_time = None
     end_time = None
 
-    if pour_button_state:
-        if pour_button_label == "Start Pour":
+    # Check if brewing is in progress
+    is_brewing = st.session_state.get("is_brewing", False)
+
+    # Toggle button label based on brewing status
+    if is_brewing:
+        pour_button_label = "End Pour"
+    else:
+        pour_button_label = "Start Pour"
+
+    # Pour Button
+    if st.button(pour_button_label):
+        if not is_brewing:
             start_time = time.time()
-            pour_button_label = "End Pour"
-        elif pour_button_label == "End Pour":
+            st.session_state.is_brewing = True
+        else:
             end_time = time.time()
-            pour_button_label = "Start Pour"
+            st.session_state.is_brewing = False
 
     # Date
     date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
