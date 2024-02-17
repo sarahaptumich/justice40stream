@@ -1,12 +1,13 @@
-# example/st_app.py
+# streamlit_app.py
 
 import streamlit as st
 from streamlit_gsheets import GSheetsConnection
 
-st.title("Read Google Sheet as DataFrame")
-
 # Create a connection object.
-conn = st.experimental_connection("gsheets", type=GSheetsConnection)
-df = conn.read(worksheet="Sheet1")
+conn = st.connection("gsheets", type=GSheetsConnection)
 
-st.dataframe(df)
+df = conn.read()
+
+# Print results.
+for row in df.itertuples():
+    st.write(f"{row.name} has a :{row.pet}:")
